@@ -106,11 +106,6 @@ function create() {
 }
 
 function update() {
-
-    var star = stars.create(Math.random()* 10 * 70, 0, 'star');
-
-    star.body.gravity.y = 300;
-    star.body.bounce.y = 0.7 + Math.random() * 0.2;
     
     //  Collide the player and the stars with the platforms
     var hitPlatform = game.physics.arcade.collide(player, platforms);
