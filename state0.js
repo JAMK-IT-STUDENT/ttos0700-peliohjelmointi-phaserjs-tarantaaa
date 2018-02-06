@@ -1,4 +1,4 @@
-var demo = {}, highMax = 695, highMin = 826, centerX = 1500 / 2, centerY = 800, runner, rabbit, speed = 6, scalingCount = 2;
+var demo = {}, highMax = 719, highMin = 880, centerX = 1500 / 2, centerY = 800, runner, rabbit, speed = 6, scalingCount = 2;
 demo.state0 = function(){};
 demo.state0.prototype = {
     preload: function(){
@@ -62,6 +62,7 @@ demo.state0.prototype = {
 };
 
 function changeState(i, stateNum){
+    console.log('state' + stateNum);
     game.state.start('state' + stateNum);
 }
 
