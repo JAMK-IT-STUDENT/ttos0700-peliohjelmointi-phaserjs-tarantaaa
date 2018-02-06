@@ -1,8 +1,9 @@
-var demo = {}, highMax = 695, highMin = 826, centerX = 1500 / 2, centerY = 800, runner, rabbit, speed = 6;
+var demo = {}, highMax = 695, highMin = 826, centerX = 1500 / 2, centerY = 800, runner, rabbit, speed = 6, scalingCount = 2;
 demo.state0 = function(){};
 demo.state0.prototype = {
     preload: function(){
-        game.load.image('runner', 'assets/sprites/female_runner.png');
+        //game.load.image('runner', 'assets/sprites/female_runner.png');
+        game.load.spritesheet('rabbitsheet', 'assets/spritesheets/rabbitrun5.png', 82, 57);
         game.load.image('rabbit', 'assets/sprites/rabbit.png');
         game.load.image('desert', 'assets/backgrounds/desert_BG.png');
     },
@@ -15,14 +16,15 @@ demo.state0.prototype = {
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         var desertBG = game.add.sprite(0, 0, 'desert');
         
-        rabbit = game.add.sprite(centerX + 260, centerY - 200, 'rabbit');
+        rabbit = game.add.sprite(20, 20, 'rabbit');
         rabbit.scale.setTo(0.6, 0.6);
         
-        runner = game.add.sprite(centerX, centerY - 40, 'runner');
+        runner = game.add.sprite(centerX, centerY - 40, 'rabbitsheet');
         runner.anchor.setTo(0.5, 0.5);
+        runner.scale.setTo(scalingCount, scalingCount);
         game.physics.enable(runner);
         runner.body.collideWorldBounds = true;
-        
+        runner.animations.add('run', [0, 1, 2]);
         
         
         game.camera.follow(runner);
@@ -30,14 +32,20 @@ demo.state0.prototype = {
     },
     update: function(){
         if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
-            runner.scale.setTo(1, 1);
+            runner.scale.setTo(scalingCount, scalingCount);
             runner.x += speed;
+            runner.animations.play('run', 6, true);
         }
         else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
-            runner.scale.setTo(-1, 1);
+            runner.scale.setTo(-scalingCount, scalingCount);
             runner.x -= speed;
+            runner.animations.play('run', 6, true);
         }
-        else if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
+        else{
+            runner.animations.stop('run');
+            runner.frame = 0;
+        }
+        if(game.input.keyboard.isDown(Phaser.Keyboard.UP)){
             runner.y -= speed;
             if(runner.y < highMax){
                 runner.y = highMax;
